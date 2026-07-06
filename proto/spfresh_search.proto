@@ -5,6 +5,7 @@ package tipb;
 option java_multiple_files = true;
 option java_package = "com.pingcap.tidb.tipb";
 
+import "expression.proto";
 import "schema.proto";
 
 import "gogoproto/gogo.proto";
@@ -42,6 +43,25 @@ message SPFreshSearchRequest {
 
     // When true, the server populates SPFreshSearchRow.distance in each result row.
     bool need_distance = 11;
+
+    // Optional pushed-down scalar filter expression over the request-visible
+    // filter schema. ColumnRef values are dense zero-based offsets into
+    // filter_expr_columns.
+    Expr filter_expr = 12;
+
+    // Explicit schema mapping for filter_expr ColumnRef offsets.
+    repeated SPFreshFilterExprColumn filter_expr_columns = 13;
+}
+
+enum SPFreshFilterExprColumnSource {
+    Stored = 0;
+    Handle = 1;
+}
+
+message SPFreshFilterExprColumn {
+    int64 column_id = 1;
+    SPFreshFilterExprColumnSource source = 2;
+    FieldType field_type = 3;
 }
 
 message SPFreshSearchResponse {

@@ -2528,6 +2528,12 @@
                 "name": "runtime_filter_list",
                 "type": "RuntimeFilter",
                 "is_repeated": true
+              },
+              {
+                "id": 15,
+                "name": "is_null_eq",
+                "type": "bool",
+                "is_repeated": true
               }
             ]
           },
@@ -4461,6 +4467,18 @@
               {
                 "name": "ApproxCountDistinct",
                 "integer": 3020
+              },
+              {
+                "name": "SumInt",
+                "integer": 3021
+              },
+              {
+                "name": "MinCount",
+                "integer": 3022
+              },
+              {
+                "name": "MaxCount",
+                "integer": 3023
               },
               {
                 "name": "RowNumber",
@@ -8455,6 +8473,20 @@
     {
       "protopath": "spfresh_search.proto",
       "def": {
+        "enums": [
+          {
+            "name": "SPFreshFilterExprColumnSource",
+            "enum_fields": [
+              {
+                "name": "Stored"
+              },
+              {
+                "name": "Handle",
+                "integer": 1
+              }
+            ]
+          }
+        ],
         "messages": [
           {
             "name": "SPFreshSearchRequest",
@@ -8514,6 +8546,37 @@
                 "id": 11,
                 "name": "need_distance",
                 "type": "bool"
+              },
+              {
+                "id": 12,
+                "name": "filter_expr",
+                "type": "Expr"
+              },
+              {
+                "id": 13,
+                "name": "filter_expr_columns",
+                "type": "SPFreshFilterExprColumn",
+                "is_repeated": true
+              }
+            ]
+          },
+          {
+            "name": "SPFreshFilterExprColumn",
+            "fields": [
+              {
+                "id": 1,
+                "name": "column_id",
+                "type": "int64"
+              },
+              {
+                "id": 2,
+                "name": "source",
+                "type": "SPFreshFilterExprColumnSource"
+              },
+              {
+                "id": 3,
+                "name": "field_type",
+                "type": "FieldType"
               }
             ]
           },
@@ -8636,6 +8699,9 @@
           }
         ],
         "imports": [
+          {
+            "path": "expression.proto"
+          },
           {
             "path": "schema.proto"
           },
