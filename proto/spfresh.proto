@@ -7,6 +7,7 @@ option java_package = "com.pingcap.tidb.tipb";
 
 import "expression.proto";
 import "schema.proto";
+import "select.proto";
 
 import "gogoproto/gogo.proto";
 import "rustproto.proto";
@@ -18,6 +19,12 @@ option (gogoproto.goproto_unkeyed_all) = false;
 option (gogoproto.goproto_unrecognized_all) = false;
 option (gogoproto.goproto_sizecache_all) = false;
 option (rustproto.lite_runtime_all) = true;
+
+message SPFreshTeardownRequest {
+    uint32 keyspace_id = 1;
+    int64 table_id = 2;
+    int64 index_id = 3;
+}
 
 message SPFreshSearchRequest {
     uint32 keyspace_id = 1;
@@ -51,6 +58,18 @@ message SPFreshSearchRequest {
 
     // Explicit schema mapping for filter_expr ColumnRef offsets.
     repeated SPFreshFilterExprColumn filter_expr_columns = 13;
+
+    // Mandatory statement evaluation properties when filter_expr is present.
+    SPFreshEvalContext eval_context = 14;
+}
+
+message SPFreshEvalContext {
+    int64 time_zone_offset = 1;
+    uint64 flags = 2;
+    uint64 max_warning_count = 3;
+    uint64 sql_mode = 4;
+    string time_zone_name = 5;
+    uint32 div_precision_increment = 6;
 }
 
 enum SPFreshFilterExprColumnSource {
@@ -67,6 +86,9 @@ message SPFreshFilterExprColumn {
 message SPFreshSearchResponse {
     repeated SPFreshSearchRow rows = 1;
     SPFreshSearchStats stats = 2;
+    Error error = 3;
+    repeated Error warnings = 4;
+    int64 warning_count = 5;
 }
 
 message SPFreshSearchRow {
