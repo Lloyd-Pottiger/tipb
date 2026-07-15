@@ -87,8 +87,9 @@ enum SPFreshTruncateMode {
 }
 
 enum SPFreshFilterExprColumnSource {
-    Stored = 0;
-    Handle = 1;
+    SPFreshFilterExprColumnSourceUnspecified = 0;
+    Stored = 1;
+    Handle = 2;
 }
 
 message SPFreshFilterExprColumn {

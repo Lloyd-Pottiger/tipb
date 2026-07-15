@@ -8494,11 +8494,15 @@
             "name": "SPFreshFilterExprColumnSource",
             "enum_fields": [
               {
-                "name": "Stored"
+                "name": "SPFreshFilterExprColumnSourceUnspecified"
+              },
+              {
+                "name": "Stored",
+                "integer": 1
               },
               {
                 "name": "Handle",
-                "integer": 1
+                "integer": 2
               }
             ]
           }
