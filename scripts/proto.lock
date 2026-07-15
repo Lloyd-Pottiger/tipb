@@ -8668,6 +8668,11 @@
                 "id": 13,
                 "name": "error_for_division_by_zero",
                 "type": "bool"
+              },
+              {
+                "id": 14,
+                "name": "max_allowed_packet",
+                "type": "uint64"
               }
             ]
           },
