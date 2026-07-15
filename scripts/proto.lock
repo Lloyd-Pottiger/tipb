@@ -8653,6 +8653,21 @@
                 "id": 10,
                 "name": "strict_sql_mode",
                 "type": "bool"
+              },
+              {
+                "id": 11,
+                "name": "ignore_zero_in_date",
+                "type": "bool"
+              },
+              {
+                "id": 12,
+                "name": "divided_by_zero_as_warning",
+                "type": "bool"
+              },
+              {
+                "id": 13,
+                "name": "error_for_division_by_zero",
+                "type": "bool"
               }
             ]
           },
