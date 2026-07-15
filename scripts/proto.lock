@@ -8475,6 +8475,22 @@
       "def": {
         "enums": [
           {
+            "name": "SPFreshTruncateMode",
+            "enum_fields": [
+              {
+                "name": "TruncateError"
+              },
+              {
+                "name": "TruncateIgnore",
+                "integer": 1
+              },
+              {
+                "name": "TruncateWarning",
+                "integer": 2
+              }
+            ]
+          },
+          {
             "name": "SPFreshFilterExprColumnSource",
             "enum_fields": [
               {
@@ -8590,13 +8606,13 @@
             "fields": [
               {
                 "id": 1,
-                "name": "time_zone_offset",
-                "type": "int64"
+                "name": "time_zone_name",
+                "type": "string"
               },
               {
                 "id": 2,
-                "name": "flags",
-                "type": "uint64"
+                "name": "time_zone_offset",
+                "type": "int64"
               },
               {
                 "id": 3,
@@ -8605,18 +8621,38 @@
               },
               {
                 "id": 4,
-                "name": "sql_mode",
-                "type": "uint64"
+                "name": "div_precision_increment",
+                "type": "uint32"
               },
               {
                 "id": 5,
-                "name": "time_zone_name",
-                "type": "string"
+                "name": "truncate_mode",
+                "type": "SPFreshTruncateMode"
               },
               {
                 "id": 6,
-                "name": "div_precision_increment",
-                "type": "uint32"
+                "name": "overflow_as_warning",
+                "type": "bool"
+              },
+              {
+                "id": 7,
+                "name": "no_zero_in_date",
+                "type": "bool"
+              },
+              {
+                "id": 8,
+                "name": "no_zero_date",
+                "type": "bool"
+              },
+              {
+                "id": 9,
+                "name": "allow_invalid_dates",
+                "type": "bool"
+              },
+              {
+                "id": 10,
+                "name": "strict_sql_mode",
+                "type": "bool"
               }
             ]
           },

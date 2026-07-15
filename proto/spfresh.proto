@@ -64,12 +64,22 @@ message SPFreshSearchRequest {
 }
 
 message SPFreshEvalContext {
-    int64 time_zone_offset = 1;
-    uint64 flags = 2;
+    string time_zone_name = 1;
+    int64 time_zone_offset = 2;
     uint64 max_warning_count = 3;
-    uint64 sql_mode = 4;
-    string time_zone_name = 5;
-    uint32 div_precision_increment = 6;
+    uint32 div_precision_increment = 4;
+    SPFreshTruncateMode truncate_mode = 5;
+    bool overflow_as_warning = 6;
+    bool no_zero_in_date = 7;
+    bool no_zero_date = 8;
+    bool allow_invalid_dates = 9;
+    bool strict_sql_mode = 10;
+}
+
+enum SPFreshTruncateMode {
+    TruncateError = 0;
+    TruncateIgnore = 1;
+    TruncateWarning = 2;
 }
 
 enum SPFreshFilterExprColumnSource {
