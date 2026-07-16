@@ -46,21 +46,44 @@ func TestSPFreshEvalContextPreservesSQLMode(t *testing.T) {
 }
 
 func TestSPFreshSearchResponseResultIsExclusive(t *testing.T) {
-	resp := &SPFreshSearchResponse{
+	success := &SPFreshSearchResponse{
 		Result: &SPFreshSearchResponse_Success{Success: &SPFreshSearchResult{
 			WarningCount: 1 << 63,
 		}},
 	}
-	if resp.GetSuccess() == nil || resp.GetError() != nil {
-		t.Fatalf("success response result = %T, want success only", resp.GetResult())
+	encoded, err := proto.Marshal(success)
+	if err != nil {
+		t.Fatalf("marshal success response: %v", err)
 	}
-	if got := resp.GetSuccess().GetWarningCount(); got != uint64(1)<<63 {
+	var decoded SPFreshSearchResponse
+	if err := proto.Unmarshal(encoded, &decoded); err != nil {
+		t.Fatalf("unmarshal success response: %v", err)
+	}
+	if decoded.GetSuccess() == nil || decoded.GetError() != nil {
+		t.Fatalf("success response result = %T, want success only", decoded.GetResult())
+	}
+	if got := decoded.GetSuccess().GetWarningCount(); got != uint64(1)<<63 {
 		t.Fatalf("warning_count = %d, want %d", got, uint64(1)<<63)
 	}
 
-	resp.Result = &SPFreshSearchResponse_Error{Error: &Error{Code: int32(SPFreshErrorCode_SPFreshIndexCorruption)}}
-	if resp.GetSuccess() != nil || resp.GetError() == nil {
-		t.Fatalf("error response result = %T, want error only", resp.GetResult())
+	errorResponse := &SPFreshSearchResponse{
+		Result: &SPFreshSearchResponse_Error{Error: &Error{Code: int32(SPFreshErrorCode_SPFreshIndexCorruption)}},
+	}
+	encoded, err = proto.Marshal(errorResponse)
+	if err != nil {
+		t.Fatalf("marshal error response: %v", err)
+	}
+	decoded.Reset()
+	if err := proto.Unmarshal(encoded, &decoded); err != nil {
+		t.Fatalf("unmarshal error response: %v", err)
+	}
+	if decoded.GetSuccess() != nil || decoded.GetError() == nil {
+		t.Fatalf("error response result = %T, want error only", decoded.GetResult())
+	}
+
+	decoded.Reset()
+	if decoded.GetResult() != nil || decoded.GetSuccess() != nil || decoded.GetError() != nil {
+		t.Fatalf("empty response result = %T, want unset", decoded.GetResult())
 	}
 }
 
