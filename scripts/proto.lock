@@ -8639,26 +8639,6 @@
                 "type": "bool"
               },
               {
-                "id": 7,
-                "name": "no_zero_in_date",
-                "type": "bool"
-              },
-              {
-                "id": 8,
-                "name": "no_zero_date",
-                "type": "bool"
-              },
-              {
-                "id": 9,
-                "name": "allow_invalid_dates",
-                "type": "bool"
-              },
-              {
-                "id": 10,
-                "name": "strict_sql_mode",
-                "type": "bool"
-              },
-              {
                 "id": 11,
                 "name": "ignore_zero_in_date",
                 "type": "bool"
@@ -8669,15 +8649,29 @@
                 "type": "bool"
               },
               {
-                "id": 13,
-                "name": "error_for_division_by_zero",
-                "type": "bool"
-              },
-              {
                 "id": 14,
                 "name": "max_allowed_packet",
                 "type": "uint64"
+              },
+              {
+                "id": 15,
+                "name": "sql_mode",
+                "type": "uint64"
               }
+            ],
+            "reserved_ids": [
+              7,
+              8,
+              9,
+              10,
+              13
+            ],
+            "reserved_names": [
+              "no_zero_in_date",
+              "no_zero_date",
+              "allow_invalid_dates",
+              "strict_sql_mode",
+              "error_for_division_by_zero"
             ]
           },
           {

@@ -70,14 +70,13 @@ message SPFreshEvalContext {
     uint32 div_precision_increment = 4;
     SPFreshTruncateMode truncate_mode = 5;
     bool overflow_as_warning = 6;
-    bool no_zero_in_date = 7;
-    bool no_zero_date = 8;
-    bool allow_invalid_dates = 9;
-    bool strict_sql_mode = 10;
     bool ignore_zero_in_date = 11;
     bool divided_by_zero_as_warning = 12;
-    bool error_for_division_by_zero = 13;
     uint64 max_allowed_packet = 14;
+    uint64 sql_mode = 15;
+
+    reserved 7, 8, 9, 10, 13;
+    reserved "no_zero_in_date", "no_zero_date", "allow_invalid_dates", "strict_sql_mode", "error_for_division_by_zero";
 }
 
 enum SPFreshTruncateMode {

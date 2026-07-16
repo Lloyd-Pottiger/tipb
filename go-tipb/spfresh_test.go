@@ -28,3 +28,19 @@ func TestSPFreshFilterExprColumnMissingSourceIsUnspecified(t *testing.T) {
 		t.Fatalf("missing source = %v, want unspecified", got)
 	}
 }
+
+func TestSPFreshEvalContextPreservesSQLMode(t *testing.T) {
+	const sqlMode = uint64(1<<6 | 1<<21 | 1<<26)
+
+	encoded, err := proto.Marshal(&SPFreshEvalContext{SqlMode: sqlMode})
+	if err != nil {
+		t.Fatalf("proto.Marshal(SPFreshEvalContext) failed: %v", err)
+	}
+	var decoded SPFreshEvalContext
+	if err := proto.Unmarshal(encoded, &decoded); err != nil {
+		t.Fatalf("proto.Unmarshal(SPFreshEvalContext) failed: %v", err)
+	}
+	if got := decoded.GetSqlMode(); got != sqlMode {
+		t.Fatalf("SPFreshEvalContext.GetSqlMode() = %#x, want %#x", got, sqlMode)
+	}
+}
