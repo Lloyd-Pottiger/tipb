@@ -44,3 +44,28 @@ func TestSPFreshEvalContextPreservesSQLMode(t *testing.T) {
 		t.Fatalf("SPFreshEvalContext.GetSqlMode() = %#x, want %#x", got, sqlMode)
 	}
 }
+
+func TestSPFreshSearchResponseResultIsExclusive(t *testing.T) {
+	resp := &SPFreshSearchResponse{
+		Result: &SPFreshSearchResponse_Success{Success: &SPFreshSearchResult{
+			WarningCount: 1 << 63,
+		}},
+	}
+	if resp.GetSuccess() == nil || resp.GetError() != nil {
+		t.Fatalf("success response result = %T, want success only", resp.GetResult())
+	}
+	if got := resp.GetSuccess().GetWarningCount(); got != uint64(1)<<63 {
+		t.Fatalf("warning_count = %d, want %d", got, uint64(1)<<63)
+	}
+
+	resp.Result = &SPFreshSearchResponse_Error{Error: &Error{Code: int32(SPFreshErrorCode_SPFreshIndexCorruption)}}
+	if resp.GetSuccess() != nil || resp.GetError() == nil {
+		t.Fatalf("error response result = %T, want error only", resp.GetResult())
+	}
+}
+
+func TestSPFreshIndexCorruptionCode(t *testing.T) {
+	if got := int32(SPFreshErrorCode_SPFreshIndexCorruption); got != 9015 {
+		t.Fatalf("SPFreshIndexCorruption code = %d, want 9015", got)
+	}
+}

@@ -8505,6 +8505,18 @@
                 "integer": 2
               }
             ]
+          },
+          {
+            "name": "SPFreshErrorCode",
+            "enum_fields": [
+              {
+                "name": "SPFreshErrorCodeUnspecified"
+              },
+              {
+                "name": "SPFreshIndexCorruption",
+                "integer": 9015
+              }
+            ]
           }
         ],
         "messages": [
@@ -8699,6 +8711,23 @@
             "fields": [
               {
                 "id": 1,
+                "name": "success",
+                "type": "SPFreshSearchResult",
+                "oneof_parent": "result"
+              },
+              {
+                "id": 2,
+                "name": "error",
+                "type": "Error",
+                "oneof_parent": "result"
+              }
+            ]
+          },
+          {
+            "name": "SPFreshSearchResult",
+            "fields": [
+              {
+                "id": 1,
                 "name": "rows",
                 "type": "SPFreshSearchRow",
                 "is_repeated": true
@@ -8710,19 +8739,14 @@
               },
               {
                 "id": 3,
-                "name": "error",
-                "type": "Error"
-              },
-              {
-                "id": 4,
                 "name": "warnings",
                 "type": "Error",
                 "is_repeated": true
               },
               {
-                "id": 5,
+                "id": 4,
                 "name": "warning_count",
-                "type": "int64"
+                "type": "uint64"
               }
             ]
           },

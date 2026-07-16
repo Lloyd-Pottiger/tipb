@@ -98,11 +98,22 @@ message SPFreshFilterExprColumn {
 }
 
 message SPFreshSearchResponse {
+    oneof result {
+        SPFreshSearchResult success = 1;
+        Error error = 2;
+    }
+}
+
+message SPFreshSearchResult {
     repeated SPFreshSearchRow rows = 1;
     SPFreshSearchStats stats = 2;
-    Error error = 3;
-    repeated Error warnings = 4;
-    int64 warning_count = 5;
+    repeated Error warnings = 3;
+    uint64 warning_count = 4;
+}
+
+enum SPFreshErrorCode {
+    SPFreshErrorCodeUnspecified = 0;
+    SPFreshIndexCorruption = 9015;
 }
 
 message SPFreshSearchRow {
