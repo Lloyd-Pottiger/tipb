@@ -1,6 +1,7 @@
 package tipb
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/gogo/protobuf/proto"
@@ -42,6 +43,28 @@ func TestSPFreshEvalContextPreservesSQLMode(t *testing.T) {
 	}
 	if got := decoded.GetSqlMode(); got != sqlMode {
 		t.Fatalf("SPFreshEvalContext.GetSqlMode() = %#x, want %#x", got, sqlMode)
+	}
+}
+
+func TestSPFreshSearchRequestMaxResponseBytesWireField(t *testing.T) {
+	const maxResponseBytes = uint64(1 << 63)
+
+	encoded, err := proto.Marshal(&SPFreshSearchRequest{MaxResponseBytes: maxResponseBytes})
+	if err != nil {
+		t.Fatalf("proto.Marshal(SPFreshSearchRequest) failed: %v", err)
+	}
+	// Field 15 with wire type 0, followed by the uint64 varint.
+	want := []byte{0x78, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x01}
+	if !bytes.Equal(encoded, want) {
+		t.Fatalf("max_response_bytes wire encoding = %x, want %x", encoded, want)
+	}
+
+	var decoded SPFreshSearchRequest
+	if err := proto.Unmarshal(encoded, &decoded); err != nil {
+		t.Fatalf("proto.Unmarshal(SPFreshSearchRequest) failed: %v", err)
+	}
+	if got := decoded.GetMaxResponseBytes(); got != maxResponseBytes {
+		t.Fatalf("SPFreshSearchRequest.GetMaxResponseBytes() = %d, want %d", got, maxResponseBytes)
 	}
 }
 
@@ -90,5 +113,11 @@ func TestSPFreshSearchResponseResultIsExclusive(t *testing.T) {
 func TestSPFreshIndexCorruptionCode(t *testing.T) {
 	if got := int32(SPFreshErrorCode_SPFreshIndexCorruption); got != 9015 {
 		t.Fatalf("SPFreshIndexCorruption code = %d, want 9015", got)
+	}
+}
+
+func TestSPFreshResponseTooLargeCode(t *testing.T) {
+	if got := int32(SPFreshErrorCode_SPFreshResponseTooLarge); got != 9016 {
+		t.Fatalf("SPFreshResponseTooLarge code = %d, want 9016", got)
 	}
 }

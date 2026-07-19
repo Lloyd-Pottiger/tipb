@@ -61,6 +61,10 @@ message SPFreshSearchRequest {
 
     // Mandatory statement evaluation properties when filter_expr is present.
     SPFreshEvalContext eval_context = 14;
+
+    // Maximum encoded response size accepted by the client. Endpoints must
+    // reject zero rather than treating it as an unlimited or default budget.
+    uint64 max_response_bytes = 15;
 }
 
 message SPFreshEvalContext {
@@ -114,6 +118,7 @@ message SPFreshSearchResult {
 enum SPFreshErrorCode {
     SPFreshErrorCodeUnspecified = 0;
     SPFreshIndexCorruption = 9015;
+    SPFreshResponseTooLarge = 9016;
 }
 
 message SPFreshSearchRow {

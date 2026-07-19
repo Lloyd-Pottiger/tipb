@@ -8515,6 +8515,10 @@
               {
                 "name": "SPFreshIndexCorruption",
                 "integer": 9015
+              },
+              {
+                "name": "SPFreshResponseTooLarge",
+                "integer": 9016
               }
             ]
           }
@@ -8614,6 +8618,11 @@
                 "id": 14,
                 "name": "eval_context",
                 "type": "SPFreshEvalContext"
+              },
+              {
+                "id": 15,
+                "name": "max_response_bytes",
+                "type": "uint64"
               }
             ]
           },
